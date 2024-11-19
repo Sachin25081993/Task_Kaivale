@@ -1,0 +1,215 @@
+{
+    "name": "ADF_TASK3",
+    "type": "Copy",
+    "dependsOn": [],
+    "policy": {
+        "timeout": "0.12:00:00",
+        "retry": 0,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+        "source": {
+            "type": "AzureSqlSource",
+            "additionalColumns": [
+                {
+                    "name": "ownerid@EntityReference",
+                    "value": "systemuser"
+                },
+                {
+                    "name": "parentcustomerid@EntityReference",
+                    "value": "account"
+                }
+				{
+                    "name": "LeadId@EntityReference",
+                    "value": "Lead"
+                }
+				{
+                    "name": "TaskId@EntityReference",
+                    "value": "Task"
+                }
+				{
+                    "name": "CountryId@EntityReference",
+                    "value": "Country"
+                }
+            ],
+            "sqlReaderQuery": "Select * from Contact",
+            "queryTimeout": "02:00:00",
+            "partitionOption": "None"
+        },
+        "sink": {
+            "type": "CommonDataServiceForAppsSink",
+            "writeBatchSize": 10,
+            "writeBehavior": "upsert",
+            "ignoreNullValues": false,
+            "alternateKeyName": "cr996_sfdcid"
+        },
+        "enableStaging": false,
+        "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+                {
+                    "source": {
+                        "name": "ownerid@EntityReference",
+                        "type": "String"
+                    },
+                    "sink": {
+                        "name": "ownerid@EntityReference"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "Ownerguid",
+                        "type": "Guid",
+                        "physicalType": "uniqueidentifier"
+                    },
+                    "sink": {
+                        "name": "ownerid",
+                        "type": "Guid"
+                    }
+                },
+				{
+                    "source": {
+                        "name": "LeadId@EntityReference",
+                        "type": "String"
+                    },
+                    "sink": {
+                        "name": "ownerid@EntityReference"
+                    }
+                },
+				{
+                    "source": {
+                        "name": "LeadId",
+                        "type": "Guid"
+                    },
+                    "sink": {
+                        "name": "LeadId"
+						 "type": "Guid"
+                    }
+                },
+				{
+                    "source": {
+                        "name": "TaskId@EntityReference",
+                        "type": "String"
+                    },
+                    "sink": {
+                        "name": "TaskId@EntityReference"
+                    }
+                },
+				{
+                    "source": {
+                        "name": "TaskId",
+                        "type": "Guid"
+                    },
+                    "sink": {
+                        "name": "TaskID"
+						 "type": "Guid"
+                    }
+                },
+				{
+                    "source": {
+                        "name": "CountryId@EntityReference",
+                        "type": "String"
+                    },
+                    "sink": {
+                        "name": "CountryId@EntityReference"
+                    }
+                },
+				{
+                    "source": {
+                        "name": "CountryId",
+                        "type": "Guid"
+                    },
+                    "sink": {
+                        "name": "CountryId"
+						 "type": "Guid"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "parentcustomerid@EntityReference",
+                        "type": "String"
+                    },
+                    "sink": {
+                        "name": "parentcustomerid@EntityReference"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "Accountguid",
+                        "type": "Guid",
+                        "physicalType": "uniqueidentifier"
+                    },
+                    "sink": {
+                        "name": "parentcustomerid",
+                        "type": "Guid"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "FirstName",
+                        "type": "String",
+                        "physicalType": "varchar"
+                    },
+                    "sink": {
+                        "name": "firstname",
+                        "type": "String"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "LastName",
+                        "type": "String",
+                        "physicalType": "varchar"
+                    },
+                    "sink": {
+                        "name": "lastname",
+                        "type": "String"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "Id",
+                        "type": "String",
+                        "physicalType": "varchar"
+                    },
+                    "sink": {
+                        "name": "cr996_sfdcidstring",
+                        "type": "String"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "Email",
+                        "type": "String",
+                        "physicalType": "varchar"
+                    },
+                    "sink": {
+                        "name": "emailaddress1",
+                        "type": "String"
+                    }
+                },
+                null
+            ],
+            "typeConversion": true,
+            "typeConversionSettings": {
+                "allowDataTruncation": true,
+                "treatBooleanAsNumber": false
+            }
+        }
+    },
+    "inputs": [
+        {
+            "referenceName": "AzureSqlContact",
+            "type": "DatasetReference"
+        }
+    ],
+    "outputs": [
+        {
+            "referenceName": "DataverseContact",
+            "type": "DatasetReference"
+        }
+    ]
+}
